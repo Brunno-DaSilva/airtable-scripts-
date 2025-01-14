@@ -21,8 +21,8 @@
  *      - `"metric"` for Celsius
  *
  * Output Fields:
- * - `description`: The general weather description (e.g., "Clear", "Cloudy").
- * - `temperature`: The current temperature in Fahrenheit.
+ * - `weatherOverview`: The general weather description (e.g., "Clear", "Cloudy").
+ * - `temperature`: The current temperature in the chosen unit (Default is Fahrenheit).
  *
  * ================================================================
  */
@@ -50,5 +50,5 @@ let getWeather = await fetch(`${finalURL}`);
 let data = await getWeather.json();
 
 // Fields:
-output.set("weatherDetail", data.weather[0].main);
+output.set("weatherOverview", data.weather[0].main);
 output.set("temperature", data.main.temp);
