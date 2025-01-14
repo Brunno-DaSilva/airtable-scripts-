@@ -16,7 +16,9 @@
  * - `BASE_URL`: The base URL for the OpenWeatherMap API endpoint.
  * - `API_KEY`: Your OpenWeatherMap API key (should be stored securely).
  * - `city`: The city name (provided via the `config` object).
- * - `unit`: The unit for temperature (set to "imperial" for Fahrenheit).
+ * - `unit`: The unit for temperature, which can be:
+ *      - `"imperial"` for Fahrenheit
+ *      - `"metric"` for Celsius
  *
  * Output Fields:
  * - `description`: The general weather description (e.g., "Clear", "Cloudy").
@@ -30,9 +32,20 @@ let config = InputDeviceInfo.config();
 const BASE_URL = `https://api.openweathermap.org/data/2.5/weather?`;
 const API_KEY = "API_KEY"; // PASS IT AS A ENV Variable if possible
 let city = config.city;
-let unit = "imperial";
+const units = {
+  imperial: {
+    value: "imperial",
+    label: "Fahrenheit",
+  },
+  metric: {
+    value: "metric",
+    label: "Celsius",
+  },
+};
+let unit = units[userUnitChoice]
+  ? units[userUnitChoice].value
+  : units.imperial.value;
 const finalURL = `${BASE_URL}q=${city}&appid=${API_KEY}&units=${unit}`;
-
 let getWeather = await fetch(`${finalURL}`);
 let data = await getWeather.json();
 
